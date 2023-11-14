@@ -9,8 +9,8 @@ import { pathExists } from "./utils";
  * @example
  * import * as vscode from "vscode";
  * await getRgFilePath(vscode.env.appRoot);
+ * // => "c:\\Users\\xxx\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\node_modules.asar.unpacked\\@vscode\\ripgrep\\bin\\rg.exe"
  */
-// TODO: add return value example
 export async function getRgFilePath(vscodeAppRoot: string) {
   const checkPath = (pkgFolder: string) =>
     pathExists(path.join(vscodeAppRoot, pkgFolder, binName));
@@ -32,8 +32,8 @@ export async function getRgFilePath(vscodeAppRoot: string) {
  * @example
  * import * as vscode from "vscode";
  * await getRgFolderPath(vscode.env.appRoot);
+ * // => "c:\\Users\\xxx\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\node_modules.asar.unpacked\\@vscode\\ripgrep\\bin"
  */
-// TODO: add return value example
 export async function getRgFolderPath(vscodeAppRoot: string) {
   return (await getRgFilePath(vscodeAppRoot))?.slice(0, -binName.length - 1);
 }
