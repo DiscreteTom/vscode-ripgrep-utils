@@ -3,15 +3,15 @@ import { binName } from "./const";
 import { pathExists } from "./utils";
 
 /**
- * Get the path to the ripgrep binary.
+ * Get the absolute path to the ripgrep binary.
  * If it exists, return the path.
  * If it doesn't exist, return `undefined`.
  * @example
  * import * as vscode from "vscode";
- * await getRgFilePath(vscode.env.appRoot);
+ * await getBinPath(vscode.env.appRoot);
  * // => "c:\\Users\\xxx\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\node_modules.asar.unpacked\\@vscode\\ripgrep\\bin\\rg.exe"
  */
-export async function getRgFilePath(vscodeAppRoot: string) {
+export async function getBinPath(vscodeAppRoot: string) {
   const checkPath = (pkgFolder: string) =>
     pathExists(path.join(vscodeAppRoot, pkgFolder, binName));
 
@@ -26,14 +26,14 @@ export async function getRgFilePath(vscodeAppRoot: string) {
 }
 
 /**
- * Get the path to the ripgrep binary folder.
+ * Get the absolute path to the ripgrep binary folder.
  * If it exists, return the path.
  * If it doesn't exist, return `undefined`.
  * @example
  * import * as vscode from "vscode";
- * await getRgFolderPath(vscode.env.appRoot);
+ * await getFolderPath(vscode.env.appRoot);
  * // => "c:\\Users\\xxx\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\node_modules.asar.unpacked\\@vscode\\ripgrep\\bin"
  */
-export async function getRgFolderPath(vscodeAppRoot: string) {
-  return (await getRgFilePath(vscodeAppRoot))?.slice(0, -binName.length - 1);
+export async function getFolderPath(vscodeAppRoot: string) {
+  return (await getBinPath(vscodeAppRoot))?.slice(0, -binName.length - 1);
 }
