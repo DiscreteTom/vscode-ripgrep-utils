@@ -5,6 +5,17 @@
   "repository": "git@github.com:DiscreteTom/vscode-ripgrep-utils.git",
   "author": "DiscreteTom <discrete_tom@outlook.com>",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "format": "prettier --write --end-of-line auto \"src/**/*.ts\"",
+    "format:check": "prettier --check --end-of-line auto \"src/**/*.ts\"",
+    "lint": "eslint src/",
+    "lint:fix": "eslint --fix src/",
+    "prepublishOnly": "yarn format:check && yarn lint && yarn test:coverage && yarn clean && yarn build && yarn build:readme"
+  },
   "devDependencies": {
     "@types/jest": "^29.5.8",
     "@types/node": "^20.9.0",
