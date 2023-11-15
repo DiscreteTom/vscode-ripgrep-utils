@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## v0.1.1
+## v0.2.0
 
+- **_Breaking Change_**: at least one of `regex` and `literal` is needed in `search` function.
 - Feat: more detailed types.
 - Fix: export structure.
 
