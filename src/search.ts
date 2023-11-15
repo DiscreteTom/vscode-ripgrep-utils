@@ -1,6 +1,4 @@
-import * as child_process from "child_process";
-import { isWindows } from "./const";
-import type { RgJsonResultLine } from "./model";
+import { execJson } from "./exec";
 
 export async function search(
   options: {
@@ -32,28 +30,13 @@ export async function search(
       }
   ),
 ) {
-  const execString = [
-    `${isWindows ? `"${options.bin}"` : options.bin}`,
-    "--json",
+  return await execJson(
+    options.bin,
     "string" in options ? `-F ${options.string}` : "",
     "regex" in options ? `-e ${options.regex}` : "",
-    options.globs?.map((glob) => `-g ${glob}`).join(" "),
-    options.fileType?.map((t) => `-t ${t}`).join(" "),
+    options.globs?.map((glob) => `-g ${glob}`).join(" ") ?? "",
+    options.fileType?.map((t) => `-t ${t}`).join(" ") ?? "",
     options.multiline ? "--multiline" : "",
     options.folder,
-  ].join(" ");
-
-  return new Promise<RgJsonResultLine[]>(function (resolve, reject) {
-    child_process.exec(execString, (error, stdout, stderr) => {
-      if (error !== null || stderr.length !== 0) {
-        reject({ error, stderr });
-      }
-      resolve(
-        stdout
-          .trim()
-          .split("\n")
-          .map((line) => JSON.parse(line) as RgJsonResultLine),
-      );
-    });
-  });
+  );
 }
