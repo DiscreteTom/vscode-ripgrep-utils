@@ -12,3 +12,7 @@ export async function pathExists(path: string): Promise<string | undefined> {
     });
   });
 }
+
+export function ensureArray(value: undefined | string | string[]) {
+  return value === undefined ? [] : value instanceof Array ? value : [value];
+}
