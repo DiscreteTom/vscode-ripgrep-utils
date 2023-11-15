@@ -1259,6 +1259,11 @@ error-ex@^1.3.1:
   dependencies:
     is-arrayish "^0.2.1"
 
+esc4sh@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.npmmirror.com/esc4sh/-/esc4sh-0.1.0.tgz#c18da91d7433da3b9d05fc48aeb4521566adb4c7"
+  integrity sha512-by/Z0UtJNobaBP6ovd0j70fCMaO5/HqGB/ADuCicVufC9ddlbF24KpI02yMTz2Y9TPvjSE52eiRq8ncpV4hRTA==
+
 escalade@^3.1.1:
   version "3.1.1"
   resolved "https://registry.npmmirror.com/escalade/-/escalade-3.1.1.tgz#d8cfdc7000965c5a0174b4a82eaa5c0552742e40"
