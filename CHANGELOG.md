@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.3.1
+
+- Note: optimize comments.
+
 ## v0.3.0
 
 - **_Breaking Change_**: auto escape command line params.

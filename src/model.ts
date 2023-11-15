@@ -35,13 +35,25 @@ export type RgJsonResultLineMatchData = {
   lines: {
     text: string;
   };
+  /**
+   * 1-based line number.
+   */
   line_number: number;
+  /**
+   * 0-based offset.
+   */
   absolute_offset: number;
   submatches: {
     match: {
       text: string;
     };
+    /**
+     * 0-based offset.
+     */
     start: number;
+    /**
+     * 0-based offset.
+     */
     end: number;
   }[];
 };
