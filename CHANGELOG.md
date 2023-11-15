@@ -2,6 +2,7 @@
 
 ## v0.3.1
 
+- Feat: add type `SubMatch`.
 - Note: optimize comments.
 
 ## v0.3.0

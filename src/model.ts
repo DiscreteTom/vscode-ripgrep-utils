@@ -30,6 +30,20 @@ export type RgJsonResultLineBegin = {
   data: RgJsonResultLineBeginData;
 };
 
+export type SubMatch = {
+  match: {
+    text: string;
+  };
+  /**
+   * 0-based offset.
+   */
+  start: number;
+  /**
+   * 0-based offset.
+   */
+  end: number;
+};
+
 export type RgJsonResultLineMatchData = {
   path: RgJsonResultPathData;
   lines: {
@@ -43,19 +57,7 @@ export type RgJsonResultLineMatchData = {
    * 0-based offset.
    */
   absolute_offset: number;
-  submatches: {
-    match: {
-      text: string;
-    };
-    /**
-     * 0-based offset.
-     */
-    start: number;
-    /**
-     * 0-based offset.
-     */
-    end: number;
-  }[];
+  submatches: SubMatch[];
 };
 
 export type RgJsonResultLineMatch = {
