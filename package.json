@@ -1,6 +1,6 @@
 {
   "name": "vscode-ripgrep-utils",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "out/index.js",
   "types": "out/index.d.ts",
   "repository": "git@github.com:DiscreteTom/vscode-ripgrep-utils.git",
