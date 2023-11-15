@@ -15,21 +15,21 @@ yarn add vscode-ripgrep-utils
 
 ## Usage
 
-VSCode use `ripgrep` to search files. There is a `rg` binary in VSCode's installation directory, but the location differs on different platforms and different versions. This package provides a `getBinPath` function to get the absolute path of `rg` binary.
+VSCode use `ripgrep` to search files. There is a `rg` binary in VSCode's installation directory, but the location differs on different platforms and different versions. This package provides a `getBinPath` function to get the absolute path of the `rg` binary.
 
 ```ts
 import * as vscode from "vscode";
 await getBinPath(vscode.env.appRoot);
 ```
 
-Then you can use child process to call `rg` binary.
-
-This lib also provide a `search` function to search files.
+Then you can use the high level `search` function to search files, or the low level `exec`/`execJson` functions to execute `ripgrep` with custom arguments.
 
 ```ts
 import * as vscode from "vscode";
 const bin = await getBinPath(vscode.env.appRoot);
 await search({ bin, folder: "./", regex: "123" });
+await exec(bin, "--version");
+await execJson(bin, "-e 123");
 ```
 
 ## Credit
