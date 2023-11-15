@@ -21,41 +21,59 @@ export type RgJsonResultStats = {
   searches_with_match: number;
 };
 
-export type RgJsonResultLine =
-  | {
-      type: "begin";
-      data: {
-        path: RgJsonResultPathData;
-      };
-    }
-  | {
-      type: "match";
-      data: {
-        path: RgJsonResultPathData;
-        lines: {
-          text: string;
-        };
-        line_number: number;
-        absolute_offset: number;
-        submatches: {
-          match: { text: string };
-          start: number;
-          end: number;
-        }[];
-      };
-    }
-  | {
-      type: "end";
-      data: {
-        path: RgJsonResultPathData;
-        binary_offset: null;
-        stats: RgJsonResultStats;
-      };
-    }
-  | {
-      type: "summary";
-      data: {
-        elapsed_total: RgJsonResultTimeElapsed;
-        stats: RgJsonResultStats;
-      };
+export type RgJsonResultLineBeginData = {
+  path: RgJsonResultPathData;
+};
+
+export type RgJsonResultLineBegin = {
+  type: "begin";
+  data: RgJsonResultLineBeginData;
+};
+
+export type RgJsonResultLineMatchData = {
+  path: RgJsonResultPathData;
+  lines: {
+    text: string;
+  };
+  line_number: number;
+  absolute_offset: number;
+  submatches: {
+    match: {
+      text: string;
     };
+    start: number;
+    end: number;
+  }[];
+};
+
+export type RgJsonResultLineMatch = {
+  type: "match";
+  data: RgJsonResultLineMatchData;
+};
+
+export type RgJsonResultLineEndData = {
+  path: RgJsonResultPathData;
+  binary_offset: null;
+  stats: RgJsonResultStats;
+};
+
+export type RgJsonResultLineEnd = {
+  type: "end";
+  data: RgJsonResultLineEndData;
+};
+
+export type RgJsonResultLineSummaryData = {
+  elapsed_total: RgJsonResultTimeElapsed;
+  stats: RgJsonResultStats;
+};
+
+export type RgJsonResultLineSummary = {
+  type: "summary";
+  data: RgJsonResultLineSummaryData;
+};
+
+export type RgJsonResultLine =
+  | RgJsonResultLineBegin
+  | RgJsonResultLineMatch
+  | RgJsonResultLineEnd
+  | RgJsonResultLineSummary;
