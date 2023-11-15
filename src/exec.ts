@@ -4,6 +4,10 @@ import { isWindows } from "./const";
 
 /**
  * Execute a command. Return the stdout if success, otherwise throw an error.
+ * @example
+ * import * as vscode from "vscode";
+ * const bin = await getBinPath(vscode.env.appRoot);
+ * exec(bin, "--version");
  */
 export async function exec(
   /**
@@ -30,6 +34,10 @@ export async function exec(
 
 /**
  * Execute a command. Auto append `--json` to the command and parse the stdout as JSON result.
+ * @example
+ * import * as vscode from "vscode";
+ * const bin = await getBinPath(vscode.env.appRoot);
+ * execJson(bin, "-e 123");
  */
 export async function execJson(
   /**
