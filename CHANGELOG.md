@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.4.2
+
+- Fix: default logger function.
+
 ## v0.4.1
 
 - Fix: exclude empty line for JSON result.
