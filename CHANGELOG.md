@@ -3,6 +3,7 @@
 ## v0.3.1
 
 - Feat: add type `SubMatch`.
+- Feat: add `config.debug`.
 - Note: optimize comments.
 - Fix: search's escaped params.
 

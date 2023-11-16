@@ -4,3 +4,4 @@ export * from "./model";
 export * from "./path";
 export * from "./search";
 export * from "./utils";
+export * from "./config";

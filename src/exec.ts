@@ -2,6 +2,7 @@ import * as child_process from "child_process";
 import type { RgJsonResultLine } from "./model";
 import { isWindows } from "./const";
 import { Manager } from "esc4sh";
+import { config } from "./config";
 
 const escaper = new Manager();
 
@@ -21,18 +22,18 @@ export async function exec(
   ...params: string[]
 ) {
   return new Promise<string>(function (resolve, reject) {
-    child_process.exec(
-      [
-        `${isWindows ? `"${bin}"` : bin}`, // quote the path on Windows
-        ...params.map((p) => escaper.escape(p)),
-      ].join(" "),
-      (error, stdout, stderr) => {
-        if (error !== null || stderr.length !== 0) {
-          reject({ error, stderr });
-        }
-        resolve(stdout);
-      },
-    );
+    const cmd = [
+      `${isWindows ? `"${bin}"` : bin}`,
+      ...params.map((p) => escaper.escape(p)),
+    ].join(" ");
+    if (config.debug) console.log(`cmd: ${cmd}`);
+
+    child_process.exec(cmd, (error, stdout, stderr) => {
+      if (error !== null || stderr.length !== 0) {
+        reject({ error, stderr });
+      }
+      resolve(stdout);
+    });
   });
 }
 
