@@ -18,6 +18,8 @@ VSCode use `ripgrep` to search files. There is a `rg` binary in VSCode's install
 
 ```ts
 import * as vscode from "vscode";
+import { getBinPath } from "vscode-ripgrep-utils";
+
 await getBinPath(vscode.env.appRoot);
 ```
 
@@ -25,14 +27,24 @@ Then you can use the high level `search` function to search files, or the low le
 
 ```ts
 import * as vscode from "vscode";
+import { getBinPath, search, exec, execJson } from "vscode-ripgrep-utils";
+
 const bin = await getBinPath(vscode.env.appRoot);
 await search({ bin, folder: "./", regex: "123" });
 await exec(bin, "--version");
-await execJson(bin, "-e 123");
+await execJson(bin, "-e", "123");
+```
+
+Enable debug to see what command is executed.
+
+```ts
+import { config } from "vscode-ripgrep-utils";
+
+config.debug = true;
 ```
 
 ## Credit
 
-This project is inspired by [Gruntfuggly/todo-tree](https://github.com/Gruntfuggly/todo-tree/tree/a6f60e0ce830c4649ac34fc05e5a1799ec91d151) and [alexlafroscia/ripgrep-js](https://github.com/alexlafroscia/ripgrep-js)
+This project is inspired by [Gruntfuggly/todo-tree](https://github.com/Gruntfuggly/todo-tree/tree/a6f60e0ce830c4649ac34fc05e5a1799ec91d151) and [alexlafroscia/ripgrep-js](https://github.com/alexlafroscia/ripgrep-js).
 
 ## [CHANGELOG](./CHANGELOG.md)
