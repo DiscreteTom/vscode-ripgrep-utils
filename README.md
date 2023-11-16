@@ -1,6 +1,7 @@
 # vscode-ripgrep-utils
 
 [![npm](https://img.shields.io/npm/v/vscode-ripgrep-utils?style=flat-square)](https://www.npmjs.com/package/vscode-ripgrep-utils)
+![coverage](https://img.shields.io/codecov/c/github/DiscreteTom/vscode-ripgrep-utils?style=flat-square)
 ![build](https://img.shields.io/github/actions/workflow/status/DiscreteTom/vscode-ripgrep-utils/publish.yml?style=flat-square)
 ![license](https://img.shields.io/github/license/DiscreteTom/vscode-ripgrep-utils?style=flat-square)
 
