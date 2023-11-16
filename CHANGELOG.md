@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.4.3
+
+- Add coverage tests.
+
 ## v0.4.2
 
 - Fix: default logger function.
