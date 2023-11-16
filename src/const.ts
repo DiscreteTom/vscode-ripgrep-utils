@@ -12,6 +12,6 @@ export const isWindows = /^win/.test(process.platform);
 export const binName = isWindows ? "rg.exe" : "rg";
 
 if (config.debug) {
-  console.log(`isWindows: ${isWindows}`);
-  console.log(`binName: ${binName}`);
+  config.logger({ isWindows });
+  config.logger({ binName });
 }

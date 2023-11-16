@@ -26,7 +26,7 @@ export async function exec(
       `${isWindows ? `"${bin}"` : bin}`,
       ...params.map((p) => escaper.escape(p)),
     ].join(" ");
-    if (config.debug) console.log(`cmd: ${cmd}`);
+    if (config.debug) config.logger({ cmd });
 
     child_process.exec(cmd, (error, stdout, stderr) => {
       // ripgrep returns code 1 when no match is found.
