@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.4.0
+
+- **_Breaking Change_**: set stdout to empty string when ripgrep no match, instead of throwing errors.
+
 ## v0.3.1
 
 - Feat: add type `SubMatch`.

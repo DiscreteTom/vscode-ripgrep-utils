@@ -7,7 +7,7 @@ import { config } from "./config";
 const escaper = new Manager();
 
 /**
- * Execute a command. Return the stdout if success, otherwise throw an error.
+ * Execute a command. Return the stdout if success (including no match, stdout is empty string), otherwise throw an error.
  * The params will be escaped and quoted automatically.
  * @example
  * import * as vscode from "vscode";
@@ -29,6 +29,9 @@ export async function exec(
     if (config.debug) console.log(`cmd: ${cmd}`);
 
     child_process.exec(cmd, (error, stdout, stderr) => {
+      // ripgrep returns code 1 when no match is found.
+      if (error?.code === 1 && stderr.length === 0) resolve("");
+
       if (error !== null || stderr.length !== 0) {
         reject({ error, stderr });
       }
