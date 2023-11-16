@@ -46,7 +46,7 @@ export async function exec(
  * @example
  * import * as vscode from "vscode";
  * const bin = await getBinPath(vscode.env.appRoot);
- * execJson(bin, "-e 123");
+ * execJson(bin, "-e", "123");
  */
 export async function execJson(
   /**
