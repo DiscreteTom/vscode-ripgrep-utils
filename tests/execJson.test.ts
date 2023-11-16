@@ -1,11 +1,13 @@
 import * as child_process from "child_process";
 import { execJson, isWindows } from "../src";
+import { Manager } from "esc4sh";
 
 jest.mock("child_process");
 const mocked = jest.mocked(child_process, { shallow: true });
 
 test("append '--json' to params", async () => {
   let cmd = "";
+  const escaper = new Manager();
 
   mocked.exec.mockImplementation(((
     command: string,
@@ -21,11 +23,17 @@ test("append '--json' to params", async () => {
   }) as any);
 
   expect(await execJson("echo")).toEqual([]);
-  expect(cmd).toEqual([isWindows ? `"echo"` : `echo`, `"--json"`].join(" "));
+  expect(cmd).toEqual(
+    [isWindows ? `"echo"` : `echo`, escaper.escape("--json")].join(" "),
+  );
 
   expect(await execJson("echo", "123")).toEqual([]);
   expect(cmd).toEqual(
-    [isWindows ? `"echo"` : `echo`, `"--json"`, `"123"`].join(" "),
+    [
+      isWindows ? `"echo"` : `echo`,
+      escaper.escape("--json"),
+      escaper.escape("123"),
+    ].join(" "),
   );
 });
 
