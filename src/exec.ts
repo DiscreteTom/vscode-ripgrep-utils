@@ -59,6 +59,7 @@ export async function execJson(
     stdout
       .trim()
       .split("\n")
+      .filter((l) => l.length !== 0)
       .map((line) => JSON.parse(line) as RgJsonResultLine),
   );
 }

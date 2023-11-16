@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.4.1
+
+- Fix: exclude empty line for JSON result.
+
 ## v0.4.0
 
 - **_Breaking Change_**: set stdout to empty string when ripgrep no match, instead of throwing errors.
