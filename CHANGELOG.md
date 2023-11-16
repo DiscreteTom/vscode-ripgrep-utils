@@ -4,6 +4,7 @@
 
 - Feat: add type `SubMatch`.
 - Note: optimize comments.
+- Fix: search's escaped params.
 
 ## v0.3.0
 

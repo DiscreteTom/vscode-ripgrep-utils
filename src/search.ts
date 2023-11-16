@@ -39,11 +39,19 @@ export async function search(
 ) {
   return await execJson(
     props.bin,
-    ...ensureArray(props.literal).map((l) => `-F ${l}`),
-    ...ensureArray(props.regex).map((r) => `-e ${r}`),
-    ...ensureArray(props.globs).map((glob) => `-g ${glob}`),
-    ...ensureArray(props.fileType).map((t) => `-t ${t}`),
-    props.multiline ? "--multiline" : "",
+    ...ensureArray(props.literal)
+      .map((l) => ["-F", l])
+      .flat(),
+    ...ensureArray(props.regex)
+      .map((r) => ["-e", r])
+      .flat(),
+    ...ensureArray(props.globs)
+      .map((glob) => ["-g", glob])
+      .flat(),
+    ...ensureArray(props.fileType)
+      .map((t) => ["-t", t])
+      .flat(),
+    ...(props.multiline ? ["--multiline"] : []),
     ...ensureArray(props.options),
     ...ensureArray(props.folder),
   );
