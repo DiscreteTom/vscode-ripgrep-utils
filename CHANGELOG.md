@@ -3,6 +3,7 @@
 ## v0.4.1
 
 - Fix: exclude empty line for JSON result.
+- Fix: default logger function.
 
 ## v0.4.0
 
