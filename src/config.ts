@@ -5,6 +5,8 @@ export const config = {
    */
   debug: false,
   logger: (o: { cmd?: string }) => {
-    o.cmd ?? console.log(`[vscode-ripgrep-utils] cmd: ${o.cmd}`);
+    if (o.cmd?.length !== 0) {
+      console.log(`[vscode-ripgrep-utils] cmd: ${o.cmd}`);
+    }
   },
 };
