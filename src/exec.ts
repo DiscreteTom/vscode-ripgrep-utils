@@ -12,7 +12,7 @@ const escaper = new Manager();
  * @example
  * import * as vscode from "vscode";
  * const bin = await getBinPath(vscode.env.appRoot);
- * exec(bin, "--version");
+ * const stdout = await exec(bin, "--version");
  */
 export async function exec(
   /**
@@ -46,7 +46,7 @@ export async function exec(
  * @example
  * import * as vscode from "vscode";
  * const bin = await getBinPath(vscode.env.appRoot);
- * execJson(bin, "-e", "123");
+ * await execJson(bin, "-e", "123");
  */
 export async function execJson(
   /**
