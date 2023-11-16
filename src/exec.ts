@@ -23,7 +23,7 @@ export async function exec(
 ) {
   return new Promise<string>(function (resolve, reject) {
     const cmd = [
-      `${isWindows ? `"${bin}"` : bin}`,
+      `${isWindows ? `"${bin}"` : bin}`, // for windows, quote the path in case of space in path
       ...params.map((p) => escaper.escape(p)),
     ].join(" ");
     if (config.debug) config.logger({ cmd });
