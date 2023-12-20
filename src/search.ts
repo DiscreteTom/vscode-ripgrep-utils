@@ -1,3 +1,4 @@
+import type { ExecJsonResult } from "./exec";
 import { execJson } from "./exec";
 import type { AtLeastOneOf } from "./utils";
 import { ensureArray } from "./utils";
@@ -36,7 +37,7 @@ export type SearchProps = AtLeastOneOf<{
  * const bin = await getBinPath(vscode.env.appRoot);
  * const { lines } = await search({ bin, folder: "./", regex: "123" });
  */
-export async function search(props: SearchProps) {
+export async function search(props: SearchProps): Promise<ExecJsonResult> {
   return await execJson(
     props.bin,
     ...ensureArray(props.literal)
