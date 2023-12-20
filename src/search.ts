@@ -2,41 +2,41 @@ import { execJson } from "./exec";
 import type { AtLeastOneOf } from "./utils";
 import { ensureArray } from "./utils";
 
+export type SearchProps = AtLeastOneOf<{
+  /**
+   * The literal string to search for.
+   */
+  literal: string | string[];
+  /**
+   * The regex to search for.
+   * This is a rust regex, not a JS regex.
+   */
+  regex: string | string[];
+}> & {
+  /**
+   * The absolute path to the ripgrep binary.
+   */
+  bin: string;
+  globs?: string | string[];
+  fileType?: string | string[];
+  multiline?: boolean;
+  /**
+   * Additional options to pass to ripgrep.
+   */
+  options?: string | string[];
+  /**
+   * The folder to search in.
+   */
+  folder: string | string[];
+};
+
 /**
  * @example
  * import * as vscode from "vscode";
  * const bin = await getBinPath(vscode.env.appRoot);
  * const { lines } = await search({ bin, folder: "./", regex: "123" });
  */
-export async function search(
-  props: AtLeastOneOf<{
-    /**
-     * The literal string to search for.
-     */
-    literal: string | string[];
-    /**
-     * The regex to search for.
-     * This is a rust regex, not a JS regex.
-     */
-    regex: string | string[];
-  }> & {
-    /**
-     * The absolute path to the ripgrep binary.
-     */
-    bin: string;
-    globs?: string | string[];
-    fileType?: string | string[];
-    multiline?: boolean;
-    /**
-     * Additional options to pass to ripgrep.
-     */
-    options?: string | string[];
-    /**
-     * The folder to search in.
-     */
-    folder: string | string[];
-  },
-) {
+export async function search(props: SearchProps) {
   return await execJson(
     props.bin,
     ...ensureArray(props.literal)
