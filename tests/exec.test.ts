@@ -24,11 +24,11 @@ describe("exec", () => {
     }) as any);
 
     // bin only
-    expect(await exec("echo")).toBe("");
+    expect((await exec("echo")).stdout).toBe("");
     expect(cmd).toBe(isWindows ? `"echo"` : "echo");
 
     // with params
-    expect(await exec("echo", "^\\", `'"`)).toBe("");
+    expect((await exec("echo", "^\\", `'"`)).stdout).toBe("");
     expect(cmd).toBe(
       [
         isWindows ? `"echo"` : "echo",
@@ -52,7 +52,7 @@ describe("exec", () => {
     }) as any);
 
     // don't throw error, return empty stdout
-    expect(await exec("echo")).toBe("");
+    expect((await exec("echo")).stdout).toBe("");
   });
 
   test("other error", async () => {
@@ -68,7 +68,8 @@ describe("exec", () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }) as any);
 
-    await expect(exec("echo")).rejects.toEqual({
+    expect(await exec("echo")).toEqual({
+      stdout: "",
       stderr: "",
       error: { code: 2, name: "", message: "" },
     });
@@ -87,7 +88,8 @@ describe("exec", () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }) as any);
 
-    await expect(exec("echo")).rejects.toEqual({
+    expect(await exec("echo")).toEqual({
+      stdout: "",
       stderr: "123",
       error: { code: 0, name: "", message: "" },
     });

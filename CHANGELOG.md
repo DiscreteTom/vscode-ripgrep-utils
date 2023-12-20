@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.5.0
+
+- **_Breaking Change_**: rewrite `exec`/`execJson`. The return value is changed. [#1](https://github.com/DiscreteTom/vscode-ripgrep-utils/issues/1)
+  - The return value of `search` is changed accordingly.
+- Feat: add `SearchProps`.
+
 ## v0.4.3
 
 - Add coverage tests.

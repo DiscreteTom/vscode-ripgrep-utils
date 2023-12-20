@@ -22,12 +22,12 @@ test("append '--json' to params", async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }) as any);
 
-  expect(await execJson("echo")).toEqual([]);
+  expect((await execJson("echo")).lines).toEqual([]);
   expect(cmd).toEqual(
     [isWindows ? `"echo"` : `echo`, escaper.escape("--json")].join(" "),
   );
 
-  expect(await execJson("echo", "123")).toEqual([]);
+  expect((await execJson("echo", "123")).lines).toEqual([]);
   expect(cmd).toEqual(
     [
       isWindows ? `"echo"` : `echo`,
@@ -50,7 +50,7 @@ test("empty stdout", async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }) as any);
 
-  expect(await execJson("echo")).toEqual([]);
+  expect((await execJson("echo")).lines).toEqual([]);
 });
 
 test("trim stdout", async () => {
@@ -66,5 +66,5 @@ test("trim stdout", async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }) as any);
 
-  expect(await execJson("echo")).toEqual([]);
+  expect((await execJson("echo")).lines).toEqual([]);
 });

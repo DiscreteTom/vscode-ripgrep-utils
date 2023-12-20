@@ -1,7 +1,7 @@
 {
   "name": "vscode-ripgrep-utils",
   "description": "Utils to make it easy to call ripgrep in VSCode's extensions.",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "main": "out/index.js",
   "types": "out/index.d.ts",
   "repository": "git@github.com:DiscreteTom/vscode-ripgrep-utils.git",

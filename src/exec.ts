@@ -6,13 +6,21 @@ import { config } from "./config";
 
 const escaper = new Manager();
 
+export type ExecResult = {
+  stdout: string;
+  stderr: string;
+  error: child_process.ExecException | null;
+};
+
 /**
- * Execute a command. Return the stdout if success (including no match, stdout is empty string), otherwise throw an error.
+ * Execute a command. Return the stdout, stderr and error.
  * The params will be escaped and quoted automatically.
+ *
+ * This function will not throw an exception based on the values of stderr or error.
  * @example
  * import * as vscode from "vscode";
  * const bin = await getBinPath(vscode.env.appRoot);
- * const stdout = await exec(bin, "--version");
+ * const { stdout } = await exec(bin, "--version");
  */
 export async function exec(
   /**
@@ -20,8 +28,8 @@ export async function exec(
    */
   bin: string,
   ...params: string[]
-) {
-  return new Promise<string>(function (resolve, reject) {
+): Promise<ExecResult> {
+  return new Promise<ExecResult>(function (resolve) {
     const cmd = [
       `${isWindows ? `"${bin}"` : bin}`, // for windows, quote the path in case of space in path
       ...params.map((p) => escaper.escape(p)),
@@ -29,16 +37,14 @@ export async function exec(
     if (config.debug) config.logger({ cmd });
 
     child_process.exec(cmd, (error, stdout, stderr) => {
-      // ripgrep returns code 1 when no match is found.
-      if (error?.code === 1 && stderr.length === 0) resolve("");
-
-      if (error !== null || stderr.length !== 0) {
-        reject({ error, stderr });
-      }
-      resolve(stdout);
+      resolve({ stdout, stderr, error });
     });
   });
 }
+
+export type ExecJsonResult = {
+  lines: RgJsonResultLine[];
+} & Pick<ExecResult, "stderr" | "error">;
 
 /**
  * Execute a command. Auto append `--json` to the command and parse the stdout as JSON result.
@@ -46,7 +52,7 @@ export async function exec(
  * @example
  * import * as vscode from "vscode";
  * const bin = await getBinPath(vscode.env.appRoot);
- * await execJson(bin, "-e", "123");
+ * const { lines } = await execJson(bin, "-e", "123");
  */
 export async function execJson(
   /**
@@ -54,12 +60,14 @@ export async function execJson(
    */
   bin: string,
   ...params: string[]
-) {
-  return await exec(bin, "--json", ...params).then((stdout) =>
-    stdout
+): Promise<ExecJsonResult> {
+  return await exec(bin, "--json", ...params).then((res) => ({
+    lines: res.stdout
       .trim()
       .split("\n")
       .filter((l) => l.length !== 0)
       .map((line) => JSON.parse(line) as RgJsonResultLine),
-  );
+    stderr: res.stderr,
+    error: res.error,
+  }));
 }
