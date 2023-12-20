@@ -6,7 +6,7 @@ import { ensureArray } from "./utils";
  * @example
  * import * as vscode from "vscode";
  * const bin = await getBinPath(vscode.env.appRoot);
- * await search({ bin, folder: "./", regex: "123" });
+ * const { lines } = await search({ bin, folder: "./", regex: "123" });
  */
 export async function search(
   props: AtLeastOneOf<{
