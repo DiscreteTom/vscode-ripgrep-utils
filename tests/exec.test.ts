@@ -1,97 +1,68 @@
 import * as child_process from "child_process";
-import { exec, isWindows } from "../src";
-import { Manager } from "esc4sh";
+import { exec } from "../src";
 
 jest.mock("child_process");
 const mocked = jest.mocked(child_process, { shallow: true });
 
 describe("exec", () => {
-  test("command", async () => {
-    let cmd = "";
-    const escaper = new Manager();
-
-    mocked.exec.mockImplementation(((
-      command: string,
-      cb: (
-        error: child_process.ExecException | null,
-        stdout: string,
-        stderr: string,
-      ) => void,
-    ) => {
-      cmd = command;
-      cb(null, "", "");
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    }) as any);
-
-    // bin only
-    expect((await exec("echo")).stdout).toBe("");
-    expect(cmd).toBe(isWindows ? `"echo"` : "echo");
-
-    // with params
-    expect((await exec("echo", "^\\", `'"`)).stdout).toBe("");
-    expect(cmd).toBe(
-      [
-        isWindows ? `"echo"` : "echo",
-        escaper.escape("^\\"),
-        escaper.escape(`'"`),
-      ].join(" "),
-    );
-  });
-
   test("no match", async () => {
-    mocked.exec.mockImplementation(((
-      _command: string,
-      cb: (
-        error: child_process.ExecException | null,
-        stdout: string,
-        stderr: string,
-      ) => void,
-    ) => {
-      cb({ code: 1, name: "", message: "" }, "", "");
+    mocked.spawn.mockImplementation(((_command: string, _params: string[]) => {
+      return {
+        stdout: {
+          on: (_event: "data", cb: (data: Buffer) => void) => {
+            cb(Buffer.from(""));
+          },
+        },
+        stderr: {
+          on: (_event: "data", cb: (data: Buffer) => void) => {
+            cb(Buffer.from(""));
+          },
+        },
+        on: (
+          event: "close" | "error",
+          cb: (err: Error | number | null) => void,
+        ) => {
+          if (event === "error")
+            setTimeout(() => cb({ name: "", message: "" }));
+        },
+      };
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }) as any);
 
     // don't throw error, return empty stdout
     expect((await exec("echo")).stdout).toBe("");
-  });
-
-  test("other error", async () => {
-    mocked.exec.mockImplementation(((
-      _command: string,
-      cb: (
-        error: child_process.ExecException | null,
-        stdout: string,
-        stderr: string,
-      ) => void,
-    ) => {
-      cb({ code: 2, name: "", message: "" }, "", "");
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    }) as any);
-
-    expect(await exec("echo")).toEqual({
-      stdout: "",
-      stderr: "",
-      error: { code: 2, name: "", message: "" },
-    });
+    expect((await exec("echo")).stderr).toBe("");
+    expect((await exec("echo")).error).toEqual({ name: "", message: "" });
   });
 
   test("stderr", async () => {
-    mocked.exec.mockImplementation(((
-      _command: string,
-      cb: (
-        error: child_process.ExecException | null,
-        stdout: string,
-        stderr: string,
-      ) => void,
-    ) => {
-      cb({ code: 0, name: "", message: "" }, "", "123");
+    mocked.spawn.mockImplementation(((_command: string, _params: string[]) => {
+      return {
+        stdout: {
+          on: (_event: "data", cb: (data: Buffer) => void) => {
+            cb(Buffer.from(""));
+          },
+        },
+        stderr: {
+          on: (_event: "data", cb: (data: Buffer) => void) => {
+            cb(Buffer.from("123"));
+          },
+        },
+        on: (
+          event: "close" | "error",
+          cb: (err: Error | number | null) => void,
+        ) => {
+          if (event === "error")
+            setTimeout(() => cb({ name: "", message: "" }));
+        },
+      };
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }) as any);
 
     expect(await exec("echo")).toEqual({
       stdout: "",
       stderr: "123",
-      error: { code: 0, name: "", message: "" },
+      error: { name: "", message: "" },
     });
   });
 });

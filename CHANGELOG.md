@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v0.6.0
+
+- **_Breaking Change_**: the type of `ExecResult.error` is changed from `child_process.ExecException | null` to `Error | null`.
+- Fix: use `child_process.spawn` instead of `child_process.exec` to avoid `stdout` buffer overflow.
+
 ## v0.5.0
 
 - **_Breaking Change_**: rewrite `exec`/`execJson`. The return value is changed. [#1](https://github.com/DiscreteTom/vscode-ripgrep-utils/issues/1)
