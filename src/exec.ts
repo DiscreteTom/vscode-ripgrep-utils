@@ -9,7 +9,7 @@ const escaper = new Manager();
 export type ExecResult = {
   stdout: string;
   stderr: string;
-  error: child_process.ExecException | null;
+  error: Error | null;
 };
 
 /**
@@ -30,13 +30,30 @@ export async function exec(
   ...params: string[]
 ): Promise<ExecResult> {
   return new Promise<ExecResult>(function (resolve) {
-    const cmd = [
-      `${isWindows ? `"${bin}"` : bin}`, // for windows, quote the path in case of space in path
-      ...params.map((p) => escaper.escape(p)),
-    ].join(" ");
-    if (config.debug) config.logger({ cmd });
+    if (config.debug) {
+      const cmd = [
+        `${isWindows ? `"${bin}"` : bin}`, // for windows, quote the path in case of space in path
+        ...params.map((p) => escaper.escape(p)),
+      ].join(" ");
+      config.logger({ cmd });
+    }
 
-    child_process.exec(cmd, (error, stdout, stderr) => {
+    const child = child_process.spawn(bin, params);
+
+    const stdoutBuffer = [] as Buffer[];
+    const stderrBuffer = [] as Buffer[];
+
+    child.stdout.on("data", (data) => stdoutBuffer.push(data));
+    child.stderr.on("data", (data) => stderrBuffer.push(data));
+
+    child.on("close", (_code) => {
+      const stdout = Buffer.concat(stdoutBuffer).toString();
+      const stderr = Buffer.concat(stderrBuffer).toString();
+      resolve({ stdout, stderr, error: null });
+    });
+    child.on("error", (error) => {
+      const stdout = Buffer.concat(stdoutBuffer).toString();
+      const stderr = Buffer.concat(stderrBuffer).toString();
       resolve({ stdout, stderr, error });
     });
   });
